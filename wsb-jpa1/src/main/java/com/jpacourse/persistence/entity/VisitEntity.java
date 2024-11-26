@@ -13,7 +13,7 @@ public class VisitEntity {
 			cascade = CascadeType.ALL,
 			fetch = FetchType.EAGER
 	)
-	@JoinColumn(name = "TREATMENT_ID")
+	@JoinColumn(name = "VISIT_ID")
 	private Collection<MedicalTreatmentEntity> medicalTreatmentEntities;
 
 	@Id

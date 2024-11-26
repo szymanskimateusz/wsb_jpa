@@ -13,7 +13,7 @@ public class DoctorEntity {
 			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY
 	)
-	@JoinColumn(name = "VISIT_ID")
+	@JoinColumn(name = "DOCTOR_ID")
 	private Collection<VisitEntity> visitEntities;
 
 	@OneToOne	// dwustronna od rodzica (tu rodzic)

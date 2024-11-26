@@ -13,7 +13,7 @@ public class PatientEntity {
 			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY
 	)
-	@JoinColumn(name = "VISIT_ID")
+	@JoinColumn(name = "PATIENT_ID")
 	private Collection<VisitEntity> visitEntities;
 
 	@OneToOne // dwustronna od rodzica (tu rodzic)
@@ -37,7 +37,7 @@ public class PatientEntity {
 	@Column(name = "PATIENT_NUMBER", nullable = false)
 	private String patientNumber;
 
-	@Column(name = "BIRTH_DATE", nullable = false)
+	@Column(name = "DATE_OF_BIRTH", nullable = false)
 	private LocalDate dateOfBirth;
 
 	public Long getId() {
