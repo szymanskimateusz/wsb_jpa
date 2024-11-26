@@ -9,14 +9,14 @@ import javax.persistence.*;
 @Table(name = "PATIENT")
 public class PatientEntity {
 
-	@OneToMany(
+	@OneToMany( // jednostronna od rodzica (tu rodzic)
 			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY
 	)
 	@JoinColumn(name = "VISIT_ID")
 	private Collection<VisitEntity> visitEntities;
 
-	@OneToOne
+	@OneToOne // dwustronna od rodzica (tu rodzic)
 	private AddressEntity addressEntity;
 
 	@Id

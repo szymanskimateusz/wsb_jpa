@@ -6,10 +6,10 @@ import javax.persistence.*;
 @Table(name = "ADDRESS")
 public class AddressEntity {
 
-	@OneToOne(mappedBy = "addressEntity")
+	@OneToOne(mappedBy = "addressEntity") // dwustronna od rodzica (tu dziecko)
 	private PatientEntity patientEntity;
 
-	@OneToOne(mappedBy = "addressEntity")
+	@OneToOne(mappedBy = "addressEntity") // dwustronna od rodzica (tu dziecko)
 	private DoctorEntity doctorEntity;
 
 	@Id

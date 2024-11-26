@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "VISIT")
 public class VisitEntity {
 
-	@OneToMany(
+	@OneToMany( // jednostronna od rodzica (tu rodzic)
 			cascade = CascadeType.ALL,
 			fetch = FetchType.EAGER
 	)
