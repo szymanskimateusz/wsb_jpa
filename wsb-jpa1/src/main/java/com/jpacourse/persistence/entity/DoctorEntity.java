@@ -2,38 +2,42 @@ package com.jpacourse.persistence.entity;
 
 import com.jpacourse.persistence.enums.Specialization;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "DOCTOR")
 public class DoctorEntity {
 
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY
+	)
+	@JoinColumn(name = "VISIT_ID")
+	private Collection<VisitEntity> visitEntities;
+
+	@OneToOne
+	private AddressEntity addressEntity;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(name = "FIRST_NAME", nullable = false)
 	private String firstName;
 
-	@Column(nullable = false)
+	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
 
-	@Column(nullable = false)
+	@Column(name = "TELEPHONE_NUMBER", nullable = false)
 	private String telephoneNumber;
-
+	@Column(name = "EMAIL", nullable = false)
 	private String email;
 
-	@Column(nullable = false)
+	@Column(name = "DOCTOR_NUMBER", nullable = false)
 	private String doctorNumber;
 
-	@Column(nullable = false)
+	@Column(name = "SPECIALIZATION", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
 

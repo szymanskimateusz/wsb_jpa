@@ -1,37 +1,43 @@
 package com.jpacourse.persistence.entity;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PATIENT")
 public class PatientEntity {
 
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY
+	)
+	@JoinColumn(name = "VISIT_ID")
+	private Collection<VisitEntity> visitEntities;
+
+	@OneToOne
+	private AddressEntity addressEntity;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(name = "FIRST_NAME", nullable = false)
 	private String firstName;
 
-	@Column(nullable = false)
+	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
 
-	@Column(nullable = false)
+	@Column(name = "TELEPHONE_NUMBER", nullable = false)
 	private String telephoneNumber;
-
+	@Column(name = "EMAIL", nullable = false)
 	private String email;
 
-	@Column(nullable = false)
+	@Column(name = "PATIENT_NUMBER", nullable = false)
 	private String patientNumber;
 
-	@Column(nullable = false)
+	@Column(name = "BIRTH_DATE", nullable = false)
 	private LocalDate dateOfBirth;
 
 	public Long getId() {

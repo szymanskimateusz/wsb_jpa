@@ -1,25 +1,29 @@
 package com.jpacourse.persistence.entity;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "VISIT")
 public class VisitEntity {
 
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.EAGER
+	)
+	@JoinColumn(name = "TREATMENT_ID")
+	private Collection<MedicalTreatmentEntity> medicalTreatmentEntities;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	@Lob
+	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
 
-	@Column(nullable = false)
+	@Column(name = "TIME", nullable = false)
 	private LocalDateTime time;
 
 	public Long getId() {
