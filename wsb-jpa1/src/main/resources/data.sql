@@ -1,2 +1,16 @@
-insert into address (id, address_line1, address_line2, city, postal_code)
-            values (1, 'xx', 'yy', 'city', '62-030');
+INSERT INTO ADDRESS (CITY, ADDRESS_LINE1, ADDRESS_LINE2, POSTAL_CODE)
+            VALUES ('city', 'xx', 'yy', '62-030'),
+                   ('city2', 'xx', 'yy', '62-031');
+
+INSERT INTO PATIENT (FIRST_NAME, LAST_NAME, TELEPHONE_NUMBER, EMAIL, PATIENT_NUMBER, DATE_OF_BIRTH, ACTIVE, ADDRESS_ID)
+VALUES ('Jan', 'Stok', 123123124, 'dodsvff@fds.esf', 43254, '2000-01-01', true, 1);
+
+INSERT INTO DOCTOR (FIRST_NAME, LAST_NAME, TELEPHONE_NUMBER, EMAIL, DOCTOR_NUMBER, SPECIALIZATION, ADDRESS_ID)
+VALUES ('John', 'Stoch', 123123123, 'dodsf@fds.esf', 5432, 'GP', 2);
+
+INSERT INTO VISIT (DESCRIPTION, TIME, PATIENT_ID, DOCTOR_ID)
+VALUES ('Check-up', '2024-12-15T10:00:00', 1, 1);
+
+INSERT INTO MEDICAL_TREATMENT (DESCRIPTION, TREATMENT_TYPE, VISIT_ID)
+VALUES ('this is the description', 'USG', 1);
+

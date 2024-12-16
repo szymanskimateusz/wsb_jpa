@@ -1,24 +1,18 @@
 package com.jpacourse.persistence.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "PATIENT")
 public class PatientEntity {
-
-	@OneToMany( // jednostronna od rodzica (tu rodzic)
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY
-	)
-	@JoinColumn(name = "PATIENT_ID")
-	private Collection<VisitEntity> visitEntities;
-
-	@OneToOne // dwustronna od rodzica (tu rodzic)
-	private AddressEntity addressEntity;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -40,60 +34,17 @@ public class PatientEntity {
 	@Column(name = "DATE_OF_BIRTH", nullable = false)
 	private LocalDate dateOfBirth;
 
-	public Long getId() {
-		return id;
-	}
+	@Column(name = "ACTIVE", nullable = false) // nowo dodane pole, inne niż string
+	private boolean active;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+	@OneToMany( // jednostronna od rodzica (tu rodzic)
+			cascade = CascadeType.PERSIST,
+			mappedBy = "patient",
+			orphanRemoval = true
+	)
+	private List<VisitEntity> visits;
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getTelephoneNumber() {
-		return telephoneNumber;
-	}
-
-	public void setTelephoneNumber(String telephoneNumber) {
-		this.telephoneNumber = telephoneNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPatientNumber() {
-		return patientNumber;
-	}
-
-	public void setPatientNumber(String patientNumber) {
-		this.patientNumber = patientNumber;
-	}
-
-	public LocalDate getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
+	@OneToOne // dwustronna od rodzica (tu rodzic)
+	@JoinColumn(name = "ADDRESS_ID", nullable = false)
+	private AddressEntity address;
 }

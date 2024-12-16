@@ -1,9 +1,13 @@
 package com.jpacourse.persistence.entity;
 
 import com.jpacourse.persistence.enums.TreatmentType;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "MEDICAL_TREATMENT")
 public class MedicalTreatmentEntity {
@@ -19,28 +23,6 @@ public class MedicalTreatmentEntity {
 	@Enumerated(EnumType.STRING)
 	private TreatmentType type;
 
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public TreatmentType getType() {
-		return type;
-	}
-
-	public void setType(TreatmentType type) {
-		this.type = type;
-	}
 
 }

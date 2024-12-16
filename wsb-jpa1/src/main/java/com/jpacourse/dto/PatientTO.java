@@ -1,0 +1,22 @@
+package com.jpacourse.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Getter
+@Setter
+public class PatientTO {
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String telephoneNumber;
+    private String email;
+    private String patientNumber;
+    private LocalDate dateOfBirth;
+    private List<VisitTO> visits;
+    private  boolean active;
+
+}

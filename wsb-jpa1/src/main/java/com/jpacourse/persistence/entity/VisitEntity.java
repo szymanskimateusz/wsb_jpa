@@ -1,53 +1,40 @@
 package com.jpacourse.persistence.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "VISIT")
 public class VisitEntity {
-
-	@OneToMany( // jednostronna od rodzica (tu rodzic)
-			cascade = CascadeType.ALL,
-			fetch = FetchType.EAGER
-	)
-	@JoinColumn(name = "VISIT_ID")
-	private Collection<MedicalTreatmentEntity> medicalTreatmentEntities;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Lob
-	@Column(name = "DESCRIPTION", nullable = false)
+	@Column(name = "DESCRIPTION")
 	private String description;
 
-	@Column(name = "TIME", nullable = false)
+	@Column(name = "TIME")
 	private LocalDateTime time;
 
-	public Long getId() {
-		return id;
-	}
+	@ManyToOne
+	@JoinColumn(name="DOCTOR_ID", nullable = false)
+	private DoctorEntity doctor;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+	@ManyToOne
+	@JoinColumn(name="PATIENT_ID", nullable = false)
+	private PatientEntity patient;
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public LocalDateTime getTime() {
-		return time;
-	}
-
-	public void setTime(LocalDateTime time) {
-		this.time = time;
-	}
-
+	@OneToMany( // jednostronna od rodzica (tu rodzic)
+			cascade = CascadeType.ALL
+	)
+	@JoinColumn(name = "VISIT_ID")
+	private List<MedicalTreatmentEntity> medicalTreatments;
 }
