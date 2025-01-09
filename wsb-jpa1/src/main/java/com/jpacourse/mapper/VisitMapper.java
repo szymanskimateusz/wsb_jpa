@@ -7,7 +7,7 @@ import com.jpacourse.persistence.entity.VisitEntity;
 import java.util.stream.Collectors;
 
 public class VisitMapper {
-    public static VisitTO mapToTO(VisitEntity visitEntity) {
+    public static VisitTO toTO(VisitEntity visitEntity) {
         if (visitEntity == null)
             return null;
 

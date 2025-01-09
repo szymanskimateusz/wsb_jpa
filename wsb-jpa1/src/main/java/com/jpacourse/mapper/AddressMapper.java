@@ -6,7 +6,7 @@ import com.jpacourse.persistence.entity.AddressEntity;
 public final class AddressMapper
 {
 
-    public static AddressTO mapToTO(final AddressEntity addressEntity)
+    public static AddressTO toTO(final AddressEntity addressEntity)
     {
         if (addressEntity == null)
         {
@@ -21,7 +21,7 @@ public final class AddressMapper
         return addressTO;
     }
 
-    public static AddressEntity mapToEntity(final AddressTO addressTO)
+    public static AddressEntity toEntity(final AddressTO addressTO)
     {
         if(addressTO == null)
         {

@@ -38,7 +38,7 @@ public class PatientEntity {
 	private boolean active;
 
 	@OneToMany( // jednostronna od rodzica (tu rodzic)
-			cascade = CascadeType.PERSIST,
+			cascade = CascadeType.ALL,
 			mappedBy = "patient",
 			orphanRemoval = true
 	)

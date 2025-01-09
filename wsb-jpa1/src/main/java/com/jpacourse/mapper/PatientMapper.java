@@ -1,14 +1,15 @@
 package com.jpacourse.mapper;
 
 import com.jpacourse.dto.PatientTO;
-import com.jpacourse.dto.VisitTO;
+import com.jpacourse.persistence.entity.AddressEntity;
 import com.jpacourse.persistence.entity.PatientEntity;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyList;
+
 public class PatientMapper {
-    public static PatientTO mapToTO(PatientEntity patientEntity) {
+    public static PatientTO toTO(PatientEntity patientEntity) {
         if (patientEntity == null)
             return null;
 
@@ -20,18 +21,15 @@ public class PatientMapper {
         patientTO.setEmail(patientEntity.getEmail());
         patientTO.setPatientNumber(patientEntity.getPatientNumber());
         patientTO.setDateOfBirth(patientEntity.getDateOfBirth());
+        patientTO.setAddress(AddressMapper.toTO(patientEntity.getAddress()));
         patientTO.setActive(patientEntity.isActive());
 
-        if (patientEntity.getVisits() != null) {
-            List<VisitTO> visits = patientEntity.getVisits().stream()
-                    .map(VisitMapper::mapToTO)
-                    .collect(Collectors.toList());
-        }
+        patientTO.setVisits(patientEntity.getVisits() != null ? patientEntity.getVisits().stream().map(VisitMapper::toTO).collect(Collectors.toList()) : emptyList());
 
         return patientTO;
     }
 
-    public static PatientEntity mapToEntity(PatientTO patientTO) {
+    public static PatientEntity toEntity(PatientTO patientTO) {
         if (patientTO == null)
             return null;
 
@@ -44,6 +42,9 @@ public class PatientMapper {
         patientEntity.setPatientNumber(patientTO.getPatientNumber());
         patientEntity.setDateOfBirth(patientTO.getDateOfBirth());
         patientEntity.setActive(patientTO.isActive());
+
+        AddressEntity addressEntity = AddressMapper.toEntity(patientTO.getAddress());
+        patientEntity.setAddress(addressEntity);
 
         return patientEntity;
     }

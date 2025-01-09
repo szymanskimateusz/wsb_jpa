@@ -16,6 +16,7 @@ public class PatientTO {
     private String email;
     private String patientNumber;
     private LocalDate dateOfBirth;
+    private AddressTO address;
     private List<VisitTO> visits;
     private  boolean active;
 

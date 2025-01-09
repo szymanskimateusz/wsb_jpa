@@ -1,13 +1,13 @@
 package com.jpacourse.service;
+import com.jpacourse.persistence.dao.AddressDao;
+import com.jpacourse.persistence.dao.DoctorDao;
+import com.jpacourse.persistence.dao.PatientDao;
+import com.jpacourse.persistence.dao.VisitDao;
 import com.jpacourse.persistence.entity.AddressEntity;
 import com.jpacourse.persistence.entity.DoctorEntity;
 import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
 import com.jpacourse.persistence.enums.Specialization;
-import com.jpacourse.repository.AddressRepository;
-import com.jpacourse.repository.DoctorRepository;
-import com.jpacourse.repository.PatientRepository;
-import com.jpacourse.repository.VisitRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,26 +23,27 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class PatientServiceTest {
     @Autowired
-    private PatientRepository patientRepository;
+    private PatientDao patientDao;
     @Autowired
-    private DoctorRepository doctorRepository;
+    private DoctorDao doctorDao;
     @Autowired
-    private VisitRepository visitRepository;
+    private VisitDao visitDao;
     @Autowired
-    private AddressRepository addressRepository;
+    private AddressDao addressDao;
 
     @Test
+    @Transactional
     public void shouldRemoveVisitWhenPatientIsRemoved() {
         VisitEntity savedVisit = createTestVisit();
         Long patientId = savedVisit.getPatient().getId();
         Long visitId = savedVisit.getId();
 
-        patientRepository.deleteById(patientId);
+        patientDao.delete(savedVisit.getPatient());
 
-        Optional<PatientEntity> patientEntity = patientRepository.findById(patientId);
+        Optional<PatientEntity> patientEntity = Optional.ofNullable(patientDao.findOne(patientId));
         assertTrue(patientEntity.isEmpty(), "Patient was removed");
 
-        Optional<VisitEntity> visitEntity = visitRepository.findById(visitId);
+        Optional<VisitEntity> visitEntity = Optional.ofNullable(visitDao.findOne(visitId));
         assertTrue(visitEntity.isEmpty(), "Visit was removed");
     }
 
@@ -54,7 +55,7 @@ public class PatientServiceTest {
         address.setAddressLine1("Testowa 1");
         address.setAddressLine2("A");
 
-        AddressEntity savedAddress = addressRepository.save(address);
+        AddressEntity savedAddress = addressDao.save(address);
 
         PatientEntity patient = new PatientEntity();
         patient.setFirstName("Jan");
@@ -67,7 +68,7 @@ public class PatientServiceTest {
         patient.setActive(false);
         patient.setAddress(savedAddress);
 
-        PatientEntity savedPatient = patientRepository.save(patient);
+        PatientEntity savedPatient = patientDao.save(patient);
 
         AddressEntity address2 = new AddressEntity();
         address2.setCity("Testowy");
@@ -75,7 +76,7 @@ public class PatientServiceTest {
         address2.setAddressLine1("Testowa 2");
         address2.setAddressLine2("B");
 
-        AddressEntity savedAddress2 = addressRepository.save(address2);
+        AddressEntity savedAddress2 = addressDao.save(address2);
 
         DoctorEntity doctor = new DoctorEntity();
         doctor.setFirstName("Batosz");
@@ -86,7 +87,7 @@ public class PatientServiceTest {
         doctor.setSpecialization(Specialization.OCULIST);
         doctor.setAddress(savedAddress2);
 
-        DoctorEntity savedDoctor = doctorRepository.save(doctor);
+        DoctorEntity savedDoctor = doctorDao.save(doctor);
 
         VisitEntity visit = new VisitEntity();
         visit.setDescription("example");
@@ -95,7 +96,8 @@ public class PatientServiceTest {
         visit.setDoctor(savedDoctor);
 
         savedPatient.getVisits().add(visit);
+        visitDao.save(visit);
 
-        return visitRepository.save(visit);
+        return visit;
     }
 }
