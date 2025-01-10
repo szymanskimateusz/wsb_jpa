@@ -25,6 +25,7 @@ public class PatientEntity {
 
 	@Column(name = "TELEPHONE_NUMBER", nullable = false)
 	private String telephoneNumber;
+
 	@Column(name = "EMAIL", nullable = false)
 	private String email;
 
@@ -36,6 +37,9 @@ public class PatientEntity {
 
 	@Column(name = "ACTIVE", nullable = false) // nowo dodane pole, inne niż string
 	private boolean active;
+
+	@Version
+	private Long version;
 
 	@OneToMany( // jednostronna od rodzica (tu rodzic)
 			cascade = CascadeType.ALL,

@@ -1,4 +1,5 @@
 package com.jpacourse.service;
+import com.jpacourse.dto.VisitTO;
 import com.jpacourse.persistence.dao.AddressDao;
 import com.jpacourse.persistence.dao.DoctorDao;
 import com.jpacourse.persistence.dao.PatientDao;
@@ -16,8 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -30,6 +33,8 @@ public class PatientServiceTest {
     private VisitDao visitDao;
     @Autowired
     private AddressDao addressDao;
+    @Autowired
+    private PatientService patientService;
 
     @Test
     @Transactional
@@ -45,6 +50,18 @@ public class PatientServiceTest {
 
         Optional<VisitEntity> visitEntity = Optional.ofNullable(visitDao.findOne(visitId));
         assertTrue(visitEntity.isEmpty(), "Visit was removed");
+    }
+
+    @Test
+    @Transactional
+    public void shouldFindVisitsByPatientId() {
+        VisitEntity savedVisit = createTestVisit();
+        VisitEntity savedVisit2 = createTestVisit();
+        Long patientId = savedVisit.getPatient().getId();
+
+        List<VisitTO> result = patientService.findVisitsByPatientId(patientId);
+
+        assertFalse(result.isEmpty(), "List of visits was found");
     }
 
     @Transactional
@@ -94,6 +111,7 @@ public class PatientServiceTest {
         visit.setTime(LocalDateTime.now());
         visit.setPatient(savedPatient);
         visit.setDoctor(savedDoctor);
+        visit.setMedicalTreatments(new ArrayList<>());
 
         savedPatient.getVisits().add(visit);
         visitDao.save(visit);

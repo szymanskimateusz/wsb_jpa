@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao {
@@ -30,5 +32,36 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
         patient.getVisits().add(visit);
 
         update(patient);
+    }
+
+    @Override
+    public List<PatientEntity> findPatientsByLastName(String pLastName) {
+        return entityManager.createQuery("select p from PatientEntity p where p.lastName = :pLastName", PatientEntity.class)
+                .setParameter("pLastName", pLastName)
+                .getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findPatientsWhoHadMoreVisitsThanX(Long x) {
+        return entityManager.createQuery("select p from PatientEntity p left join p.visits v " +
+                " group by p.id, p.firstName, p.lastName having count(v.patient) > :x", PatientEntity.class)
+                .setParameter("x", x)
+                .getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findPatientsByDateOfBirthBetween(LocalDate startDate, LocalDate endDate) {
+        return entityManager.createQuery("select p from PatientEntity p " +
+                        " where p.dateOfBirth between :startDate and :endDate", PatientEntity.class)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
+                .getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findPatientsbyActivityStatus(boolean isActive) {
+        return entityManager.createQuery("select p from PatientEntity p where p.active = :isActive", PatientEntity.class)
+                .setParameter("isActive", isActive)
+                .getResultList();
     }
 }

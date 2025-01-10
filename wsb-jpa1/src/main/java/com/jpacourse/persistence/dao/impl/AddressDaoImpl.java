@@ -11,8 +11,8 @@ public class AddressDaoImpl extends AbstractDao<AddressEntity, Long> implements 
 {
     @Override
     public List<AddressEntity> findByAddress(String city, String addressLine1, String postalCode) {
-        return entityManager.createQuery("SELECT city, addressLine1, postalCode FROM AddressEntity" +
-                        " WHERE city = :city AND addressLine1 = :addressLine1 AND postalCode = :postalCode", AddressEntity.class)
+        return entityManager.createQuery("select city, addressLine1, postalCode from AddressEntity" +
+                        " where city = :city and addressLine1 = :addressLine1 and postalCode = :postalCode", AddressEntity.class)
                 .setParameter("city", city)
                 .setParameter("addressLine1", addressLine1)
                 .setParameter("postalCode", postalCode)

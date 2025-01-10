@@ -1,12 +1,15 @@
 package com.jpacourse.rest;
 
 import com.jpacourse.dto.PatientTO;
+import com.jpacourse.dto.VisitTO;
 import com.jpacourse.service.PatientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/patient")
@@ -37,5 +40,11 @@ public class PatientController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/visits/{id}")
+    public ResponseEntity<List<VisitTO>> findVisitsByPatientId(@PathVariable Long id) {
+        List<VisitTO> visitTO = patientService.findVisitsByPatientId(id);
+        return visitTO.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(visitTO);
     }
 }

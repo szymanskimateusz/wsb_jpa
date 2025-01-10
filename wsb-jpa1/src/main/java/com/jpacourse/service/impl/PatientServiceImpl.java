@@ -1,7 +1,9 @@
 package com.jpacourse.service.impl;
 
 import com.jpacourse.dto.PatientTO;
+import com.jpacourse.dto.VisitTO;
 import com.jpacourse.mapper.PatientMapper;
+import com.jpacourse.mapper.VisitMapper;
 import com.jpacourse.persistence.dao.AddressDao;
 import com.jpacourse.persistence.dao.PatientDao;
 import com.jpacourse.persistence.entity.AddressEntity;
@@ -10,7 +12,9 @@ import com.jpacourse.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -45,5 +49,12 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public boolean deletePatient(Long id) {
         return false;
+    }
+
+    @Override
+    public List<VisitTO> findVisitsByPatientId(Long id) {
+        PatientEntity patient = patientDao.findOne(id);
+
+        return patient.getVisits().stream().map(VisitMapper::toTO).collect(Collectors.toList());
     }
 }
