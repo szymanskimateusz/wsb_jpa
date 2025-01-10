@@ -115,6 +115,7 @@ public class PatientDaoTest {
 
         List<PatientEntity> result = patientDao.findPatientsByLastName("Krolikowali");
 
+        assertThat(result).isNotEmpty();
         assertThat(result).allMatch(p -> p.getLastName().equals("Krolikowali"));
     }
 
